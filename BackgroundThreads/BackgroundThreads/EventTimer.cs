@@ -1,6 +1,13 @@
 ﻿namespace BackgroundThreads
 {
     public delegate void EventTimerOnTickHandler();
+
+    /// <summary>
+    /// The EventTimer class uses an Event to trigger the OnTick 
+    /// event with a given time interval.
+    /// The OnTick event can be executed in the main application 
+    /// thread or in the context of the internal thread.
+    /// </summary>
     public class EventTimer
     {
         private object _syncObj = new object();
@@ -13,7 +20,14 @@
         private Thread? _thread;
         private Form? _parentForm;
 
+        /// <summary>
+        /// The OnTick event is triggered when a specified amount of time, determined by the Interval property, has passed.
+        /// </summary>
         public event EventTimerOnTickHandler? OnTick;
+
+        /// <summary>
+        /// Set enable to true in order to trigger the OnTick event.
+        /// </summary>
         public bool Enabled 
         {
             get { lock (_syncObj) return _enabled; }
@@ -25,6 +39,10 @@
                 } 
             } 
         }
+
+        /// <summary>
+        /// Time interval in milliseconds passed between each OnTick event.
+        /// </summary>
         public int Interval
         {
             get { lock (_syncObj) return _interval; }
@@ -36,7 +54,12 @@
                 }
             }
         }
+
+        /// <summary>
+        /// ThreadIsAlive returns true when the internal thread is alive.
+        /// </summary>
         public bool ThreadIsAlive { get { return (_thread != null) && _thread.IsAlive; } }
+
         private bool ShouldStop
         {
             get { lock (_syncObj) return _shouldStop; }
@@ -56,26 +79,42 @@
                 } 
             }
         }
+
+        /// <summary>
+        /// When AsyncEvent is true the OnTick event is triggered asynchronously on the main application thread.
+        /// Otherwise it's executed in the context of the internal thread.
+        /// </summary>
         public bool AsyncEvent
         {
             get { lock (_syncObj) return _asyncEvent; }
             set { lock (_syncObj) _asyncEvent = value; }
         }
+
         private bool Waiting
         {
             get { lock (_syncObj) return _waiting; }
             set { lock (_syncObj) _waiting = value; }
         }
+
+        /// <summary>
+        /// This class constructor must be used when AsyncEvent is true.
+        /// </summary>
+        /// <param name="parentForm">Parent form instance used to execute the OnTick event in the main application thread.</param>
         public EventTimer(Form? parentForm)
         {
             _parentForm = parentForm;
             CreateThread();
         }
+
+        /// <summary>
+        /// This class constructor must be used when AsyncEvent is false.
+        /// </summary>
         public EventTimer()
         {
             _parentForm = null;
             CreateThread();
         }
+
         private void CreateThread()
         {
             if (_thread == null)
@@ -85,6 +124,10 @@
                 _thread.Start();
             }
         }
+
+        /// <summary>
+        /// The parent form must call Stop before closing in order to destroy the internal thread.
+        /// </summary>
         public void Stop()
         {
             OnTick = null;
@@ -95,6 +138,7 @@
                 _thread = null;
             }
         }
+
         private void DoOnTick()
         {
             if (Enabled && (OnTick != null))
@@ -131,6 +175,7 @@
                 }
             }
         }
+
         private void Run()
         {
             while (CanContinue())
