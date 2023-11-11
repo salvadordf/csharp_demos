@@ -6,3 +6,5 @@ Collection of demo projects in C#
 * _QueueBackgroundWorker_: The QueueBackgroundWorker class uses an internal thread and a queue list to store custom messages. The application can handle the current message in the OnWork event. The _QueueBackgroundWorkerDemo_ demo shows how to use this class.
 
   
+## CefSharpWinForms
+CefSharp browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
