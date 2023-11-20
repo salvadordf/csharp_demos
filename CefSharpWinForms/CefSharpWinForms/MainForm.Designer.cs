@@ -245,7 +245,7 @@
             // saveFileDialog1
             // 
             saveFileDialog1.DefaultExt = "pdf";
-            saveFileDialog1.Filter = "PDF files|*pdf";
+            saveFileDialog1.Filter = "PDF files|*.pdf";
             // 
             // openFileDialog1
             // 

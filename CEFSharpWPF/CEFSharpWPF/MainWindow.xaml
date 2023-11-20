@@ -16,7 +16,17 @@
             </StackPanel>
             <StackPanel x:Name="PnlConfig" Width="60" Orientation="Horizontal" DockPanel.Dock="Right">
                 <Button x:Name="BtnGo" Content="►" FontFamily="Arial" Width="25" Height="25" Margin="5,0,0,0" Click="BtnGo_Click"/>
-                <Button x:Name="BtnConfig" Content="≡" FontFamily="Arial" Width="25" Height="25" Margin="5,0,0,0"/>
+                <Button x:Name="BtnConfig" Content="≡" FontFamily="Arial" Width="25" Height="25" Margin="5,0,0,0" Click="BtnConfig_Click">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="DevTools" Click="showDevToolsMenuItem_Click" />
+                            <MenuItem Header="Print to PDF" Click="printToPDFMenuItem_Click" />
+                            <MenuItem Header="Open file..." Click="openFileMenuItem_Click" />
+                            <Separator />
+                            <MenuItem Header="Exit" Click="exitMenuItem_Click" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
             </StackPanel>
             <ComboBox x:Name="CbxURL" IsEditable="True" Text="https://www.briskbard.com">
                 <ComboBoxItem Content="https://www.google.com"/>

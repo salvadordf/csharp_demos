@@ -1,15 +1,8 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using CefSharp;
+﻿using CefSharp;
 using CefSharp.Wpf;
+using Microsoft.Win32;
+using System.IO;
+using System.Windows;
 
 namespace CEFSharpWPF
 {
@@ -103,6 +96,68 @@ namespace CEFSharpWPF
             {
                 StatusText2.Text = e.Value;
             });
+        }
+
+        private void BtnConfig_Click(object sender, RoutedEventArgs e)
+        {
+            BtnConfig.ContextMenu.IsOpen = true;
+        }
+
+        private void exitMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void showDevToolsMenuItem_Click(object sender, EventArgs e)
+        {
+            _ChromiumWebBrowser.ShowDevTools();
+        }
+
+        private void printToPDFMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialog = new SaveFileDialog();
+            dialog.DefaultExt = ".pdf"; 
+            dialog.Filter = "PDF files|*.pdf"; 
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                _ChromiumWebBrowser.PrintToPdfAsync(dialog.FileName);
+            }
+        }
+
+        private void openFileMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "HTML files|*.htm;*.html|PDF files|*.pdf";
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                try
+                {
+                    byte[] bytes = File.ReadAllBytes(dialog.FileName);
+                    String file = Convert.ToBase64String(bytes);
+                    String mimeType;
+                    if (dialog.FilterIndex == 1)
+                    {
+                        mimeType = @"text/html";
+                    }
+                    else
+                    {
+                        mimeType = @"application/pdf";
+                    }
+
+                    String uri = "data:" + mimeType + ";charset=utf-8;base64," + Uri.EscapeDataString(file);
+                    addURL(uri);
+                    _ChromiumWebBrowser.LoadUrlAsync(uri);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("There was an error opening that file.\n" + exception.Message,
+                        "File error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }
