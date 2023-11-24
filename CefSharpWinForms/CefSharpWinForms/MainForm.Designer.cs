@@ -182,7 +182,7 @@
             // 
             toolStripStatusLabel1.AutoSize = false;
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(150, 17);
+            toolStripStatusLabel1.Size = new Size(250, 17);
             // 
             // toolStripStatusLabel2
             // 

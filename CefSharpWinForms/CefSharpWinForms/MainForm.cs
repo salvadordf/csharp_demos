@@ -1,4 +1,5 @@
 using CefSharp;
+using CefSharp.WinForms;
 
 namespace CefSharpWinForms
 {
@@ -7,7 +8,9 @@ namespace CefSharpWinForms
         public MainForm()
         {
             InitializeComponent();
-
+            var downloadHandler = new DownloadHandler();
+            downloadHandler.OnDownloadUpdatedFired += DownloadHandler_OnDownloadUpdatedFired;
+            chromiumWebBrowser1.DownloadHandler = downloadHandler;
             LoadUrl();
         }
         private void LoadUrl()
@@ -46,6 +49,24 @@ namespace CefSharpWinForms
         private void BtnGo_Click(object sender, EventArgs e)
         {
             LoadUrl();
+        }
+        private void DownloadHandler_OnDownloadUpdatedFired(object? sender, DownloadItem e)
+        {
+            Invoke(() =>
+            {
+                if (e.IsComplete)
+                {
+                    toolStripStatusLabel1.Text = "Download complete.";
+                } 
+                else if (e.IsInProgress)
+                {
+                    toolStripStatusLabel1.Text = $"Downloading: {e.PercentComplete}%";
+                }
+                else
+                {
+                    toolStripStatusLabel1.Text = "";
+                }
+            });
         }
 
         private void chromiumWebBrowser1_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
@@ -132,14 +153,14 @@ namespace CefSharpWinForms
                     {
                         mimeType = @"application/pdf";
                     }
-                    
+
                     String uri = "data:" + mimeType + ";charset=utf-8;base64," + Uri.EscapeDataString(file);
                     addURL(uri);
                     chromiumWebBrowser1.LoadUrlAsync(uri);
                 }
                 catch (Exception exception)
                 {
-                    MessageBox.Show("There was an error opening that file.\n" + exception.Message, 
+                    MessageBox.Show("There was an error opening that file.\n" + exception.Message,
                         "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
