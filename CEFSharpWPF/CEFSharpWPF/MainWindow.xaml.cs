@@ -3,6 +3,7 @@ using CefSharp.Wpf;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace CEFSharpWPF
 {
@@ -21,6 +22,11 @@ namespace CEFSharpWPF
             _ChromiumWebBrowser.Focus();
             _ChromiumWebBrowser.LoadingStateChanged += chromiumWebBrowser_LoadingStateChanged;
             _ChromiumWebBrowser.StatusMessage += chromiumWebBrowser_StatusMessage;
+            var downloadHandler = new DownloadHandler();
+            downloadHandler.OnDownloadUpdatedFired += DownloadHandler_OnDownloadUpdatedFired;
+            _ChromiumWebBrowser.DownloadHandler = downloadHandler;
+            //
+            
             LoadUrl();
         }
 
@@ -68,7 +74,31 @@ namespace CEFSharpWPF
         {
             LoadUrl();
         }
-
+        private void DownloadHandler_OnDownloadUpdatedFired(object? sender, DownloadItem e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (e.IsComplete || (e.PercentComplete == 100))
+                {
+                    StatusText1.Text = "Download complete.";
+                }
+                else if (e.IsInProgress)
+                {
+                    if (e.PercentComplete >= 0)
+                    {
+                        StatusText1.Text = $"Downloading: {e.PercentComplete}%";
+                    }
+                    else
+                    {
+                        StatusText1.Text = $"Downloading: {e.ReceivedBytes} bytes";
+                    }
+                }
+                else
+                {
+                    StatusText1.Text = "";
+                }
+            });
+        }
         private void chromiumWebBrowser_LoadingStateChanged(object? sender, LoadingStateChangedEventArgs e)
         {
             Dispatcher.Invoke(() =>

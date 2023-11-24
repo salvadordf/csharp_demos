@@ -54,13 +54,20 @@ namespace CefSharpWinForms
         {
             Invoke(() =>
             {
-                if (e.IsComplete)
+                if (e.IsComplete || (e.PercentComplete == 100))
                 {
                     toolStripStatusLabel1.Text = "Download complete.";
-                } 
+                }
                 else if (e.IsInProgress)
                 {
-                    toolStripStatusLabel1.Text = $"Downloading: {e.PercentComplete}%";
+                    if (e.PercentComplete >= 0)
+                    {
+                        toolStripStatusLabel1.Text = $"Downloading: {e.PercentComplete}%";
+                    }
+                    else
+                    {
+                        toolStripStatusLabel1.Text = $"Downloading: {e.ReceivedBytes} bytes";
+                    }
                 }
                 else
                 {

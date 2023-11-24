@@ -78,8 +78,8 @@
             </ComboBox>
         </DockPanel>
         <StatusBar DockPanel.Dock="Bottom" Height="22">
-            <StatusBarItem Width="150">
-                <TextBlock x:Name="StatusText1" Width="150"></TextBlock>
+            <StatusBarItem Width="250">
+                <TextBlock x:Name="StatusText1" Width="250"></TextBlock>
             </StatusBarItem>
             <StatusBarItem Width="500">
                 <TextBlock x:Name="StatusText2" Width="500"></TextBlock>
