@@ -28,7 +28,7 @@
                     </Button.ContextMenu>
                 </Button>
             </StackPanel>
-            <ComboBox x:Name="CbxURL" IsEditable="True" Text="https://www.briskbard.com">
+            <ComboBox x:Name="CbxURL" IsEditable="True" Text="{Binding Mode=OneWay, Path=Address}">
                 <ComboBoxItem Content="https://www.google.com"/>
                 <ComboBoxItem Content="https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending"/>
                 <ComboBoxItem Content="https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close"/>

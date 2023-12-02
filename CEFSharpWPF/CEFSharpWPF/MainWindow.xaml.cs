@@ -25,9 +25,9 @@ namespace CEFSharpWPF
             var downloadHandler = new DownloadHandler();
             downloadHandler.OnDownloadUpdatedFired += DownloadHandler_OnDownloadUpdatedFired;
             _ChromiumWebBrowser.DownloadHandler = downloadHandler;
-            //
+            CbxURL.DataContext = _ChromiumWebBrowser;
             
-            LoadUrl();
+            LoadUrl(@"https://www.briskbard.com");
         }
 
         private void InitializeCEF()
@@ -36,9 +36,12 @@ namespace CEFSharpWPF
             Cef.Initialize(settings);
         }
 
-        private void LoadUrl()
+        private void LoadUrl(string url)
         {
-            _ChromiumWebBrowser?.LoadUrlAsync(CbxURL.Text);
+            if (!string.IsNullOrEmpty(url) && (_ChromiumWebBrowser != null) && (url != _ChromiumWebBrowser.Address))
+            {
+                _ChromiumWebBrowser?.LoadUrlAsync(url);
+            }
         }
 
         private void addURL(string url)
@@ -72,7 +75,7 @@ namespace CEFSharpWPF
 
         private void BtnGo_Click(object sender, RoutedEventArgs e)
         {
-            LoadUrl();
+            LoadUrl(CbxURL.Text);
         }
         private void DownloadHandler_OnDownloadUpdatedFired(object? sender, DownloadItem e)
         {
@@ -115,8 +118,6 @@ namespace CEFSharpWPF
                 {
                     StatusText1.Text = "";
                 }
-
-                addURL(e.Browser.MainFrame.Url);
             });
         }
 
