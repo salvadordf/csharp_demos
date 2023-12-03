@@ -29,7 +29,7 @@ namespace WebView2WinForms
 
         private void BtnGo_Click(object sender, EventArgs e)
         {
-            webView21.CoreWebView2.Navigate(CbxURL.Text);
+            LoadUrl(CbxURL.Text);
         }
 
         private void webView21_SourceChanged(object sender, Microsoft.Web.WebView2.Core.CoreWebView2SourceChangedEventArgs e)
@@ -49,6 +49,13 @@ namespace WebView2WinForms
             BtnForward.Enabled = webView21.CanGoForward;
             BtnStop.Enabled = isNavigating;
             BtnReload.Enabled = !isNavigating;
+        }
+        private void LoadUrl(string url)
+        {
+            if (!string.IsNullOrEmpty(url) && (url != webView21.Source.ToString()))
+            {
+                webView21.CoreWebView2.Navigate(url);
+            }
         }
 
         private void webView21_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
@@ -87,7 +94,7 @@ namespace WebView2WinForms
 
         private void addURL(string url)
         {
-            if (CbxURL.Items.IndexOf(url) == -1)
+            if (!string.IsNullOrEmpty(url) && (CbxURL.Items.IndexOf(url) == -1))
             {
                 CbxURL.Items.Add(url);
             }
@@ -114,7 +121,7 @@ namespace WebView2WinForms
 
                     String uri = "data:" + mimeType + ";charset=utf-8;base64," + Uri.EscapeDataString(file);
                     addURL(uri);
-                    webView21.CoreWebView2.Navigate(uri);
+                    LoadUrl(uri);
                 }
                 catch (Exception exception)
                 {

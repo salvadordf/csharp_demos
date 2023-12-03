@@ -1,0 +1,93 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WebView2Wpf"
+        xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" x:Class="WebView2Wpf.MainWindow"
+        mc:Ignorable="d"
+        Title="MiniBrowser" Height="768" Width="1024" WindowStartupLocation="CenterScreen">
+    <DockPanel x:Name="PnlMain">
+        <DockPanel x:Name="PnlNavControl" DockPanel.Dock="Top" Height="25" Margin="0,0,0,5">
+            <StackPanel x:Name="PnlNavButton" Width="120" Orientation="Horizontal" DockPanel.Dock="Left">
+                <Button x:Name="BtnBack" Content="3" FontFamily="Webdings" Width="25" Height="25" Margin="0,0,5,0" Click="BtnBack_Click"/>
+                <Button x:Name="BtnForward" Content="4" FontFamily="Webdings" Width="25" Height="25" Margin="0,0,5,0" Click="BtnForward_Click"/>
+                <Button x:Name="BtnReload" Content="q" FontFamily="Webdings" Width="25" Height="25" Margin="0,0,5,0" Click="BtnReload_Click"/>
+                <Button x:Name="BtnStop" Content="=" FontFamily="Webdings" Width="25" Height="25" Margin="0,0,5,0" Click="BtnStop_Click"/>
+            </StackPanel>
+            <StackPanel x:Name="PnlConfig" Width="60" Orientation="Horizontal" DockPanel.Dock="Right">
+                <Button x:Name="BtnGo" Content="►" FontFamily="Arial" Width="25" Height="25" Margin="5,0,0,0" Click="BtnGo_Click"/>
+                <Button x:Name="BtnConfig" Content="≡" FontFamily="Arial" Width="25" Height="25" Margin="5,0,0,0" Click="BtnConfig_Click">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="DevTools" Click="showDevToolsMenuItem_Click" />
+                            <MenuItem Header="Print to PDF" Click="printToPDFMenuItem_Click" />
+                            <MenuItem Header="Open file..." Click="openFileMenuItem_Click" />
+                            <Separator />
+                            <MenuItem Header="Exit" Click="exitMenuItem_Click" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </StackPanel>
+            <ComboBox x:Name="CbxURL" IsEditable="True" Text="{Binding Address, Mode=OneWay}">
+                <ComboBoxItem Content="https://www.google.com"/>
+                <ComboBoxItem Content="https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending"/>
+                <ComboBoxItem Content="https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close"/>
+                <ComboBoxItem Content="https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert"/>
+                <ComboBoxItem Content="https://www.w3schools.com/js/tryit.asp?filename=tryjs_loc_assign"/>
+                <ComboBoxItem Content="https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_backgroundcolor"/>
+                <ComboBoxItem Content="https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name"/>
+                <ComboBoxItem Content="https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file"/>
+                <ComboBoxItem Content="https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_state_throw_error"/>
+                <ComboBoxItem Content="https://www.htmlquick.com/es/reference/tags/input-file.html"/>
+                <ComboBoxItem Content="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file"/>
+                <ComboBoxItem Content="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/webkitdirectory"/>
+                <ComboBoxItem Content="https://www.w3schools.com/html/html5_video.asp"/>
+                <ComboBoxItem Content="http://html5test.com/"/>
+                <ComboBoxItem Content="https://webrtc.github.io/samples/src/content/devices/input-output/"/>
+                <ComboBoxItem Content="https://test.webrtc.org/"/>
+                <ComboBoxItem Content="https://www.browserleaks.com/webrtc"/>
+                <ComboBoxItem Content="https://shaka-player-demo.appspot.com/demo/"/>
+                <ComboBoxItem Content="http://webglsamples.org/"/>
+                <ComboBoxItem Content="https://get.webgl.org/"/>
+                <ComboBoxItem Content="https://www.briskbard.com"/>
+                <ComboBoxItem Content="https://www.youtube.com"/>
+                <ComboBoxItem Content="https://html5demos.com/drag/"/>
+                <ComboBoxItem Content="https://frames-per-second.appspot.com/"/>
+                <ComboBoxItem Content="https://www.sede.fnmt.gob.es/certificados/persona-fisica/verificar-estado"/>
+                <ComboBoxItem Content="https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm"/>
+                <ComboBoxItem Content="https://www.xdumaine.com/enumerateDevices/test/"/>
+                <ComboBoxItem Content="https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pdf"/>
+                <ComboBoxItem Content="chrome://version/"/>
+                <ComboBoxItem Content="chrome://net-internals/"/>
+                <ComboBoxItem Content="chrome://tracing/"/>
+                <ComboBoxItem Content="chrome://appcache-internals/"/>
+                <ComboBoxItem Content="chrome://blob-internals/"/>
+                <ComboBoxItem Content="chrome://view-http-cache/"/>
+                <ComboBoxItem Content="chrome://credits/"/>
+                <ComboBoxItem Content="chrome://histograms/"/>
+                <ComboBoxItem Content="chrome://media-internals/"/>
+                <ComboBoxItem Content="chrome://kill"/>
+                <ComboBoxItem Content="chrome://crash"/>
+                <ComboBoxItem Content="chrome://hang"/>
+                <ComboBoxItem Content="chrome://shorthang"/>
+                <ComboBoxItem Content="chrome://gpuclean"/>
+                <ComboBoxItem Content="chrome://gpucrash"/>
+                <ComboBoxItem Content="chrome://gpuhang"/>
+                <ComboBoxItem Content="chrome://extensions-support"/>
+                <ComboBoxItem Content="chrome://process-internals"/>
+            </ComboBox>
+        </DockPanel>
+        <StatusBar DockPanel.Dock="Bottom" Height="22">
+            <StatusBarItem Width="250">
+                <TextBlock x:Name="StatusText1" Width="250"/>
+            </StatusBarItem>
+            <StatusBarItem Width="500">
+                <TextBlock x:Name="StatusText2" Width="500"/>
+            </StatusBarItem>
+        </StatusBar>
+        <Border x:Name="BrdrBrowser" BorderBrush="Gray">
+            <Wpf:WebView2 x:Name="webView21" Source="https://www.briskbard.com/" SourceChanged="webView21_SourceChanged" NavigationStarting="webView21_NavigationStarting" NavigationCompleted="webView21_NavigationCompleted" CoreWebView2InitializationCompleted="webView21_CoreWebView2InitializationCompleted"/>
+        </Border>
+    </DockPanel>
+</Window>

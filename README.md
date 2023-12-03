@@ -14,3 +14,6 @@ CefSharp browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delph
 
 ## WebView2WinForms
 WebView2 browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
+
+## WebView2WPF
+WebView2 browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
