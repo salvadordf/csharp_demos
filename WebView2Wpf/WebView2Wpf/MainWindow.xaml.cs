@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WebView2Wpf
 {
@@ -145,6 +146,11 @@ namespace WebView2Wpf
         {
             PnlNavControl.IsEnabled = true;
             EnableNavigationButtons(false);
+            webView21.CoreWebView2.DocumentTitleChanged += webView21_DocumentTitleChanged;
+        }
+        private void webView21_DocumentTitleChanged(object? sender, object e)
+        {
+            Title = "MiniBroser - " + webView21.CoreWebView2.DocumentTitle;
         }
 
         private void EnableNavigationButtons(bool isNavigating)

@@ -1,3 +1,5 @@
+using Microsoft.Web.WebView2.Core;
+
 namespace WebView2WinForms
 {
     public partial class MainForm : Form
@@ -41,21 +43,12 @@ namespace WebView2WinForms
         {
             PnlNavControl.Enabled = true;
             EnableNavigationButtons(false);
+            webView21.CoreWebView2.DocumentTitleChanged += webView21_DocumentTitleChanged;
         }
 
-        private void EnableNavigationButtons(bool isNavigating)
+        private void webView21_DocumentTitleChanged(object? sender, object e)
         {
-            BtnBack.Enabled = webView21.CanGoBack;
-            BtnForward.Enabled = webView21.CanGoForward;
-            BtnStop.Enabled = isNavigating;
-            BtnReload.Enabled = !isNavigating;
-        }
-        private void LoadUrl(string url)
-        {
-            if (!string.IsNullOrEmpty(url) && (url != webView21.Source.ToString()))
-            {
-                webView21.CoreWebView2.Navigate(url);
-            }
+            Text = "MiniBroser - " + webView21.CoreWebView2.DocumentTitle;
         }
 
         private void webView21_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
@@ -66,6 +59,22 @@ namespace WebView2WinForms
         private void webView21_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
         {
             EnableNavigationButtons(false);
+        }
+
+        private void EnableNavigationButtons(bool isNavigating)
+        {
+            BtnBack.Enabled = webView21.CanGoBack;
+            BtnForward.Enabled = webView21.CanGoForward;
+            BtnStop.Enabled = isNavigating;
+            BtnReload.Enabled = !isNavigating;
+        }
+
+        private void LoadUrl(string url)
+        {
+            if (!string.IsNullOrEmpty(url) && (url != webView21.Source.ToString()))
+            {
+                webView21.CoreWebView2.Navigate(url);
+            }
         }
 
         private void printToPDFToolStripMenuItem_Click(object sender, EventArgs e)
