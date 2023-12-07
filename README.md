@@ -7,13 +7,16 @@ Collection of demo projects in C#
 
   
 ## CefSharpWinForms
-CefSharp browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
+CefSharp WinForms browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
   
 ## CefSharpWPF
-CefSharp browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
+CefSharp WPF browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
 
 ## WebView2WinForms
-WebView2 browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
+WebView2 WinForms browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
 
 ## WebView2WPF
-WebView2 browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
+WebView2 WPF browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
+
+## WebView2UWP
+WebView2 UWP browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.

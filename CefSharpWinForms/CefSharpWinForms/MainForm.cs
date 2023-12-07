@@ -20,11 +20,14 @@ namespace CefSharpWinForms
 
         private void addURL(string url)
         {
-            if (CbxURL.Items.IndexOf(url) == -1)
+            if (!string.IsNullOrEmpty(url))
             {
-                CbxURL.Items.Add(url);
+                if (CbxURL.Items.IndexOf(url) == -1)
+                {
+                    CbxURL.Items.Add(url);
+                }
+                CbxURL.Text = url;
             }
-            CbxURL.Text = url;
         }
         private void BtnBack_Click(object sender, EventArgs e)
         {

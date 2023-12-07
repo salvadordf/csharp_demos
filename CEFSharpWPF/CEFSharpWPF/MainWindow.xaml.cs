@@ -46,11 +46,14 @@ namespace CEFSharpWPF
 
         private void addURL(string url)
         {
-            if (!string.IsNullOrEmpty(url) && (CbxURL.Items.IndexOf(url) == -1))
+            if (!string.IsNullOrEmpty(url))
             {
-                CbxURL.Items.Add(url);
+                if (CbxURL.Items.IndexOf(url) == -1)
+                {
+                    CbxURL.Items.Add(url);
+                }
+                CbxURL.Text = url;
             }
-            CbxURL.Text = url;
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
