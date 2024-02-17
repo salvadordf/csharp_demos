@@ -20,3 +20,6 @@ WebView2 WPF browser similar to the MiniBrowser demo in CEF4Delphi and WebView4D
 
 ## WebView2UWP
 WebView2 UWP browser similar to the MiniBrowser demo in CEF4Delphi and WebView4Delphi.
+
+## SQLiteTest1
+Simple SQLite demo.
