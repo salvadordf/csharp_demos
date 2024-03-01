@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Data.Sqlite;
 
 namespace SQLiteTest1
 {
     public partial class MainForm : Form
     {
-        SQLiteConnection? sqlite_conn = null;
+        SqliteConnection? sqlite_conn = null;
         public MainForm()
         {
             InitializeComponent();
@@ -29,8 +23,8 @@ namespace SQLiteTest1
             {
                 if (sqlite_conn == null)
                 {
-                    string connectionString = "Data Source = database.db; Version = 3; New = True; Compress = True;";
-                    sqlite_conn = new SQLiteConnection(connectionString);
+                    string connectionString = "Data Source = database3.db";
+                    sqlite_conn = new SqliteConnection(connectionString);
                     AppendLog("Connection created successfully.");
                 }
             }
@@ -62,10 +56,14 @@ namespace SQLiteTest1
             {
                 if (ConnectionOpen)
                 {
-                    using (SQLiteCommand sqlite_cmd = sqlite_conn.CreateCommand())
+                    using (SqliteCommand sqlite_cmd = sqlite_conn.CreateCommand())
                     {
-                        string sqlCommand = "INSERT INTO SampleTable (name, age) VALUES('usuario1', 15);";
+                        string sqlCommand =
+                            @"INSERT INTO SampleTable (name, age) 
+                                VALUES($name, $age);";
                         sqlite_cmd.CommandText = sqlCommand;
+                        sqlite_cmd.Parameters.AddWithValue("$name", "usuario2");
+                        sqlite_cmd.Parameters.AddWithValue("$age", 25);
                         sqlite_cmd.ExecuteNonQuery();
                     }
                     AppendLog("Data inserted successfully.");
@@ -83,9 +81,9 @@ namespace SQLiteTest1
             {
                 if (ConnectionOpen)
                 {
-                    using (SQLiteCommand sqlite_cmd = sqlite_conn.CreateCommand())
+                    using (SqliteCommand sqlite_cmd = sqlite_conn.CreateCommand())
                     {
-                        string sqlCommand = "CREATE TABLE SampleTable (name VARCHAR(20), age INT)";
+                        string sqlCommand = "CREATE TABLE SampleTable (name TEXT, age INTEGER);";
                         sqlite_cmd.CommandText = sqlCommand;
                         sqlite_cmd.ExecuteNonQuery();
                     }
@@ -120,14 +118,16 @@ namespace SQLiteTest1
             {
                 if (ConnectionOpen)
                 {
-                    using (SQLiteCommand sqlite_cmd = sqlite_conn.CreateCommand())
+                    using (SqliteCommand sqlite_cmd = sqlite_conn.CreateCommand())
                     {
                         string sqlCommand = "SELECT * FROM SampleTable";
                         sqlite_cmd.CommandText = sqlCommand;
-                        SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader();
+                        SqliteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader();
                         while (sqlite_datareader.Read())
                         {
-                            AppendLog("Name: " + sqlite_datareader.GetString(0) + " Age: " + sqlite_datareader.GetInt32(1));
+                            string name = sqlite_datareader.GetString(0);
+                            int age = sqlite_datareader.GetInt32(1);
+                            AppendLog($"Name: {name} Age: {age}");
                         }
                     }
                 }
