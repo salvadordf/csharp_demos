@@ -12,9 +12,31 @@ namespace EFWinFormsTest
         {
             get
             {
-                if (dataGridView1.SelectedRows.Count > 0)
+                if (productsDataGridView.SelectedRows.Count > 0)
                 {
-                    return Convert.ToInt32(dataGridView1.CurrentRow.Cells[0].Value);
+                    return Convert.ToInt32(productsDataGridView.CurrentRow.Cells[0].Value);
+                }
+                return 0;
+            }
+        }
+        private Int32 SelectedCustomerId
+        {
+            get
+            {
+                if (customersDataGridView.SelectedRows.Count > 0)
+                {
+                    return Convert.ToInt32(customersDataGridView.CurrentRow.Cells[0].Value);
+                }
+                return 0;
+            }
+        }
+        private Int32 SelectedPhoneId
+        {
+            get
+            {
+                if (phonesDataGridView.SelectedRows.Count > 0)
+                {
+                    return Convert.ToInt32(phonesDataGridView.CurrentRow.Cells[0].Value);
                 }
                 return 0;
             }
@@ -29,6 +51,8 @@ namespace EFWinFormsTest
             _context = new CustomContext();
             _context.Products.Load();
             this.productBindingSource.DataSource = _context.Products.Local.ToBindingList();
+            this.customerBindingSource.DataSource = _context.Customers.Local.ToBindingList();
+            this.phoneBindingSource.DataSource = _context.Phones.Local.ToBindingList();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -51,7 +75,7 @@ namespace EFWinFormsTest
                 };
                 _context?.Products.Add(product);
                 _context?.SaveChanges();
-                dataGridView1.Refresh();
+                productsDataGridView.Refresh();
             }
         }
 
@@ -59,6 +83,18 @@ namespace EFWinFormsTest
         {
             removeButton.Enabled = SelectedProductId > 0;
             editButton.Enabled = removeButton.Enabled;
+        }
+
+        private void customersDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            removeCustomerButton.Enabled = SelectedCustomerId > 0;
+            editCustomerButton.Enabled = removeCustomerButton.Enabled;
+        }
+
+        private void phonesDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            removePhoneButton.Enabled = SelectedPhoneId > 0;
+            editPhoneButton.Enabled = removePhoneButton.Enabled;
         }
 
         private void removeButton_Click(object sender, EventArgs e)
@@ -71,7 +107,38 @@ namespace EFWinFormsTest
                 {
                     _context?.Products.Remove(product);
                     _context?.SaveChanges();
-                    dataGridView1.Refresh();
+                    productsDataGridView.Refresh();
+                }
+            }
+        }
+
+        private void removeCustomerButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to remove that customer?", "Customer removal", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                Customer? customer = _context?.Customers.Find(SelectedCustomerId);
+                if (customer != null)
+                {
+                    _context?.Customers.Remove(customer);
+                    _context?.SaveChanges();
+                    customersDataGridView.Refresh();
+                    phonesDataGridView.Refresh();
+                }
+            }
+        }
+
+        private void removePhoneButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to remove that phone?", "Phone removal", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                Phone? phone = _context?.Phones.Find(SelectedPhoneId);
+                if (phone != null)
+                {
+                    _context?.Phones.Remove(phone);
+                    _context?.SaveChanges();
+                    phonesDataGridView.Refresh();
                 }
             }
         }
@@ -92,7 +159,7 @@ namespace EFWinFormsTest
                     product.Description = editForm.DescriptionValue;
                     product.Price = editForm.PriceValue;
                     _context?.SaveChanges();
-                    dataGridView1.Refresh();
+                    productsDataGridView.Refresh();
                 }
             }
         }
