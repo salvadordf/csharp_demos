@@ -42,6 +42,9 @@
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
             splitContainer1 = new SplitContainer();
+            addCustomerButton = new Button();
+            removeCustomerButton = new Button();
+            editCustomerButton = new Button();
             customersDataGridView = new DataGridView();
             idDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             firstNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -49,9 +52,6 @@
             addressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             phonesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             customerBindingSource = new BindingSource(components);
-            editCustomerButton = new Button();
-            removeCustomerButton = new Button();
-            addCustomerButton = new Button();
             phonesDataGridView = new DataGridView();
             idDataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             numberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -205,10 +205,10 @@
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.BackColor = Color.Transparent;
+            splitContainer1.Panel1.Controls.Add(addCustomerButton);
+            splitContainer1.Panel1.Controls.Add(removeCustomerButton);
             splitContainer1.Panel1.Controls.Add(customersDataGridView);
             splitContainer1.Panel1.Controls.Add(editCustomerButton);
-            splitContainer1.Panel1.Controls.Add(removeCustomerButton);
-            splitContainer1.Panel1.Controls.Add(addCustomerButton);
             splitContainer1.Panel1.Padding = new Padding(5);
             // 
             // splitContainer1.Panel2
@@ -221,20 +221,52 @@
             splitContainer1.SplitterDistance = 199;
             splitContainer1.TabIndex = 1;
             // 
+            // addCustomerButton
+            // 
+            addCustomerButton.Location = new Point(6, 8);
+            addCustomerButton.Name = "addCustomerButton";
+            addCustomerButton.Size = new Size(75, 23);
+            addCustomerButton.TabIndex = 0;
+            addCustomerButton.Text = "Add";
+            addCustomerButton.UseVisualStyleBackColor = true;
+            addCustomerButton.Click += addCustomerButton_Click;
+            // 
+            // removeCustomerButton
+            // 
+            removeCustomerButton.Location = new Point(87, 8);
+            removeCustomerButton.Name = "removeCustomerButton";
+            removeCustomerButton.Size = new Size(75, 23);
+            removeCustomerButton.TabIndex = 1;
+            removeCustomerButton.Text = "Remove";
+            removeCustomerButton.UseVisualStyleBackColor = true;
+            removeCustomerButton.Click += removeCustomerButton_Click;
+            // 
+            // editCustomerButton
+            // 
+            editCustomerButton.Location = new Point(168, 8);
+            editCustomerButton.Name = "editCustomerButton";
+            editCustomerButton.Size = new Size(75, 23);
+            editCustomerButton.TabIndex = 2;
+            editCustomerButton.Text = "Edit";
+            editCustomerButton.UseVisualStyleBackColor = true;
+            editCustomerButton.Click += editCustomerButton_Click;
+            // 
             // customersDataGridView
             // 
             customersDataGridView.AllowUserToAddRows = false;
             customersDataGridView.AllowUserToDeleteRows = false;
-            customersDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             customersDataGridView.AutoGenerateColumns = false;
             customersDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             customersDataGridView.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn1, firstNameDataGridViewTextBoxColumn, lastNameDataGridViewTextBoxColumn, addressDataGridViewTextBoxColumn, phonesDataGridViewTextBoxColumn });
             customersDataGridView.DataSource = customerBindingSource;
-            customersDataGridView.Location = new Point(6, 35);
+            customersDataGridView.Location = new Point(5, 37);
             customersDataGridView.Name = "customersDataGridView";
-            customersDataGridView.Size = new Size(756, 158);
+            customersDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            customersDataGridView.ShowEditingIcon = false;
+            customersDataGridView.Size = new Size(758, 161);
             customersDataGridView.TabIndex = 3;
             customersDataGridView.SelectionChanged += customersDataGridView_SelectionChanged;
+            customersDataGridView.DoubleClick += customersDataGridView_DoubleClick;
             // 
             // idDataGridViewTextBoxColumn1
             // 
@@ -270,45 +302,18 @@
             // 
             customerBindingSource.DataSource = typeof(Models.Customer);
             // 
-            // editCustomerButton
-            // 
-            editCustomerButton.Location = new Point(168, 6);
-            editCustomerButton.Name = "editCustomerButton";
-            editCustomerButton.Size = new Size(75, 23);
-            editCustomerButton.TabIndex = 2;
-            editCustomerButton.Text = "Edit";
-            editCustomerButton.UseVisualStyleBackColor = true;
-            // 
-            // removeCustomerButton
-            // 
-            removeCustomerButton.Location = new Point(87, 6);
-            removeCustomerButton.Name = "removeCustomerButton";
-            removeCustomerButton.Size = new Size(75, 23);
-            removeCustomerButton.TabIndex = 1;
-            removeCustomerButton.Text = "Remove";
-            removeCustomerButton.UseVisualStyleBackColor = true;
-            removeCustomerButton.Click += removeCustomerButton_Click;
-            // 
-            // addCustomerButton
-            // 
-            addCustomerButton.Location = new Point(6, 6);
-            addCustomerButton.Name = "addCustomerButton";
-            addCustomerButton.Size = new Size(75, 23);
-            addCustomerButton.TabIndex = 0;
-            addCustomerButton.Text = "Add";
-            addCustomerButton.UseVisualStyleBackColor = true;
-            // 
             // phonesDataGridView
             // 
             phonesDataGridView.AllowUserToAddRows = false;
             phonesDataGridView.AllowUserToDeleteRows = false;
-            phonesDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             phonesDataGridView.AutoGenerateColumns = false;
             phonesDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             phonesDataGridView.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn2, numberDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn1, customerIdDataGridViewTextBoxColumn, customerDataGridViewTextBoxColumn });
             phonesDataGridView.DataSource = phoneBindingSource;
             phonesDataGridView.Location = new Point(6, 36);
             phonesDataGridView.Name = "phonesDataGridView";
+            phonesDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            phonesDataGridView.ShowEditingIcon = false;
             phonesDataGridView.Size = new Size(756, 153);
             phonesDataGridView.TabIndex = 3;
             phonesDataGridView.SelectionChanged += phonesDataGridView_SelectionChanged;
@@ -381,11 +386,15 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(tabControl1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "EF WinForms Test";
             FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
+            Shown += MainForm_Shown;
             ((System.ComponentModel.ISupportInitialize)productsDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)productBindingSource).EndInit();
             tabControl1.ResumeLayout(false);

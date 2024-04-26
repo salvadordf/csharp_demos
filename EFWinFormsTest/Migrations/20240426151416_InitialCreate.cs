@@ -47,6 +47,7 @@ namespace EFWinFormsTest.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Number = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
                     CustomerId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

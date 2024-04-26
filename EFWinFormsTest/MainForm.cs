@@ -50,6 +50,8 @@ namespace EFWinFormsTest
         {
             _context = new CustomContext();
             _context.Products.Load();
+            _context.Customers.Load();
+            _context.Phones.Load();
             this.productBindingSource.DataSource = _context.Products.Local.ToBindingList();
             this.customerBindingSource.DataSource = _context.Customers.Local.ToBindingList();
             this.phoneBindingSource.DataSource = _context.Phones.Local.ToBindingList();
@@ -79,22 +81,31 @@ namespace EFWinFormsTest
             }
         }
 
-        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        private void EnableButtons()
         {
             removeButton.Enabled = SelectedProductId > 0;
             editButton.Enabled = removeButton.Enabled;
+
+            removeCustomerButton.Enabled = SelectedCustomerId > 0;
+            editCustomerButton.Enabled = removeCustomerButton.Enabled;
+
+            removePhoneButton.Enabled = SelectedPhoneId > 0;
+            editPhoneButton.Enabled = removePhoneButton.Enabled;
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            EnableButtons();
         }
 
         private void customersDataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            removeCustomerButton.Enabled = SelectedCustomerId > 0;
-            editCustomerButton.Enabled = removeCustomerButton.Enabled;
+            EnableButtons();
         }
 
         private void phonesDataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            removePhoneButton.Enabled = SelectedPhoneId > 0;
-            editPhoneButton.Enabled = removePhoneButton.Enabled;
+            EnableButtons();
         }
 
         private void removeButton_Click(object sender, EventArgs e)
@@ -152,7 +163,9 @@ namespace EFWinFormsTest
                 editForm.NameValue = product.Name;
                 editForm.DescriptionValue = product.Description;
                 editForm.PriceValue = product.Price;
+
                 DialogResult resultValue = editForm.ShowDialog();
+
                 if (resultValue == DialogResult.OK)
                 {
                     product.Name = editForm.NameValue;
@@ -163,6 +176,7 @@ namespace EFWinFormsTest
                 }
             }
         }
+
         private void editButton_Click(object sender, EventArgs e)
         {
             EditSelectedProduct();
@@ -171,6 +185,63 @@ namespace EFWinFormsTest
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
             EditSelectedProduct();
+        }
+
+        private void EditSelectedCustomer()
+        {
+            Customer? customer = _context?.Customers.Find(SelectedCustomerId);
+            if (customer != null)
+            {
+                using CustomerForm editForm = new CustomerForm();
+                editForm.FirstNameValue = customer.FirstName;
+                editForm.LastNameValue = customer.LastName;
+                editForm.AddressValue = customer.Address;
+
+                DialogResult resultValue = editForm.ShowDialog();
+
+                if (resultValue == DialogResult.OK)
+                {
+                    customer.FirstName = editForm.FirstNameValue;
+                    customer.LastName = editForm.LastNameValue;
+                    customer.Address = editForm.AddressValue;
+                    _context?.SaveChanges();
+                    customersDataGridView.Refresh();
+                }
+            }
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            EnableButtons();
+        }
+
+        private void addCustomerButton_Click(object sender, EventArgs e)
+        {
+            using CustomerForm addForm = new CustomerForm();
+            DialogResult resultValue = addForm.ShowDialog();
+            if (resultValue == DialogResult.OK)
+            {
+                Customer customer = new Customer()
+                {
+                    FirstName = addForm.FirstNameValue,
+                    LastName = addForm.LastNameValue,
+                    Address = addForm.AddressValue
+                };
+                _context?.Customers.Add(customer);
+                _context?.SaveChanges();
+                customersDataGridView.Refresh();
+                phonesDataGridView.Refresh();
+            }
+        }
+
+        private void editCustomerButton_Click(object sender, EventArgs e)
+        {
+            EditSelectedCustomer();
+        }
+
+        private void customersDataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            EditSelectedCustomer();
         }
     }
 }

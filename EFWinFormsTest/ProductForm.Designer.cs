@@ -115,8 +115,10 @@
             // 
             // ProductForm
             // 
+            AcceptButton = okButton;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = cancelButton;
             ClientSize = new Size(225, 143);
             Controls.Add(cancelButton);
             Controls.Add(priceNumericUpDown);
@@ -133,6 +135,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ProductForm";
             TopMost = true;
+            Shown += ProductForm_Shown;
             ((System.ComponentModel.ISupportInitialize)priceNumericUpDown).EndInit();
             ResumeLayout(false);
             PerformLayout();

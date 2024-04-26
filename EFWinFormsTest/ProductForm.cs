@@ -13,14 +13,17 @@ namespace EFWinFormsTest
     public partial class ProductForm : Form
     {
         public string NameValue { get { return nameTextBox.Text.Trim(); } set { nameTextBox.Text = value; } }
-        public string DescriptionValue { 
-            get { return descriptionTextBox.Text.Trim(); } 
-            set { 
+        public string DescriptionValue
+        {
+            get { return descriptionTextBox.Text.Trim(); }
+            set
+            {
                 if (value != null)
                 {
                     descriptionTextBox.Text = value;
                 }
-            } }
+            }
+        }
         public decimal PriceValue { get { return priceNumericUpDown.Value; } set { priceNumericUpDown.Value = value; } }
 
         public ProductForm()
@@ -40,6 +43,11 @@ namespace EFWinFormsTest
         }
 
         private void descriptionTextBox_TextChanged(object sender, EventArgs e)
+        {
+            EnableButtons();
+        }
+
+        private void ProductForm_Shown(object sender, EventArgs e)
         {
             EnableButtons();
         }

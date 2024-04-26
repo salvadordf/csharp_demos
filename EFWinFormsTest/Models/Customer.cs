@@ -10,6 +10,6 @@
 
         public string? Address { get; set; }
 
-        public ICollection<Phone> Phones { get; set; } = null!;
+        public ICollection<Phone>? Phones { get; set; }
     }
 }
