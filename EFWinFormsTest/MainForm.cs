@@ -14,7 +14,8 @@ namespace EFWinFormsTest
             {
                 if (productsDataGridView.SelectedRows.Count > 0)
                 {
-                    return Convert.ToInt32(productsDataGridView.CurrentRow.Cells[0].Value);
+                    Product product = (Product)productsDataGridView.CurrentRow.DataBoundItem;
+                    return product.Id; 
                 }
                 return 0;
             }
@@ -25,7 +26,8 @@ namespace EFWinFormsTest
             {
                 if (customersDataGridView.SelectedRows.Count > 0)
                 {
-                    return Convert.ToInt32(customersDataGridView.CurrentRow.Cells[0].Value);
+                    Customer customer = (Customer)customersDataGridView.CurrentRow.DataBoundItem;
+                    return customer.Id;
                 }
                 return 0;
             }
@@ -36,7 +38,8 @@ namespace EFWinFormsTest
             {
                 if (phonesDataGridView.SelectedRows.Count > 0)
                 {
-                    return Convert.ToInt32(phonesDataGridView.CurrentRow.Cells[0].Value);
+                    Phone phone = (Phone)phonesDataGridView.CurrentRow.DataBoundItem;
+                    return phone.Id;
                 }
                 return 0;
             }
@@ -51,10 +54,9 @@ namespace EFWinFormsTest
             _context = new CustomContext();
             _context.Products.Load();
             _context.Customers.Load();
-            _context.Phones.Load();
+
             this.productBindingSource.DataSource = _context.Products.Local.ToBindingList();
-            this.customerBindingSource.DataSource = _context.Customers.Local.ToBindingList();
-            this.phoneBindingSource.DataSource = _context.Phones.Local.ToBindingList();
+            this.customerBindingSource1.DataSource = _context.Customers.Local.ToBindingList();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -88,8 +90,9 @@ namespace EFWinFormsTest
 
             removeCustomerButton.Enabled = SelectedCustomerId > 0;
             editCustomerButton.Enabled = removeCustomerButton.Enabled;
+            addPhoneButton.Enabled = removeCustomerButton.Enabled;
 
-            removePhoneButton.Enabled = SelectedPhoneId > 0;
+            removePhoneButton.Enabled = addPhoneButton.Enabled && (SelectedPhoneId > 0);
             editPhoneButton.Enabled = removePhoneButton.Enabled;
         }
 
@@ -101,6 +104,15 @@ namespace EFWinFormsTest
         private void customersDataGridView_SelectionChanged(object sender, EventArgs e)
         {
             EnableButtons();
+            if (_context != null)
+            {
+                Customer customer = (Customer)customersDataGridView.CurrentRow.DataBoundItem;
+
+                if (customer != null)
+                {
+                    _context.Entry(customer).Collection(e => e.Phones).Load();
+                }
+            }
         }
 
         private void phonesDataGridView_SelectionChanged(object sender, EventArgs e)
@@ -242,6 +254,55 @@ namespace EFWinFormsTest
         private void customersDataGridView_DoubleClick(object sender, EventArgs e)
         {
             EditSelectedCustomer();
+        }
+
+        private void addPhoneButton_Click(object sender, EventArgs e)
+        {
+            using PhoneForm addForm = new PhoneForm();
+            DialogResult resultValue = addForm.ShowDialog();
+            if (resultValue == DialogResult.OK)
+            {
+                Phone phone = new Phone()
+                {
+                    Number = addForm.NumberValue,
+                    Description = addForm.DescriptionValue,
+                    CustomerId = SelectedCustomerId
+                };
+                _context?.Phones.Add(phone);
+                _context?.SaveChanges();
+                phonesDataGridView.Refresh();
+            }
+        }
+
+        private void EditSelectedPhone()
+        {
+            Phone? phone = _context?.Phones.Find(SelectedPhoneId);
+            if (phone != null)
+            {
+                using PhoneForm editForm = new PhoneForm();
+                editForm.NumberValue = phone.Number;
+                editForm.DescriptionValue = phone.Description;
+
+                DialogResult resultValue = editForm.ShowDialog();
+
+                if (resultValue == DialogResult.OK)
+                {
+                    phone.Number = editForm.NumberValue;
+                    phone.Description = editForm.DescriptionValue;
+                    _context?.SaveChanges();
+                    phonesDataGridView.Refresh();
+                }
+            }
+        }
+
+        private void editPhoneButton_Click(object sender, EventArgs e)
+        {
+            EditSelectedPhone();
+        }
+
+        private void phonesDataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            EditSelectedPhone();
         }
     }
 }

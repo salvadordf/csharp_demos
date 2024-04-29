@@ -1,4 +1,6 @@
-﻿namespace EFWinFormsTest.Models
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+
+namespace EFWinFormsTest.Models
 {
     public class Customer
     {
@@ -10,6 +12,6 @@
 
         public string? Address { get; set; }
 
-        public ICollection<Phone>? Phones { get; set; }
+        public ObservableCollectionListSource<Phone> Phones { get; } = new();
     }
 }

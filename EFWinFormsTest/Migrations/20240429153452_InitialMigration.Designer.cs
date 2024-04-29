@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFWinFormsTest.Migrations
 {
     [DbContext(typeof(CustomContext))]
-    [Migration("20240426151416_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240429153452_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

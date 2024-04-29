@@ -44,24 +44,19 @@
             splitContainer1 = new SplitContainer();
             addCustomerButton = new Button();
             removeCustomerButton = new Button();
-            editCustomerButton = new Button();
             customersDataGridView = new DataGridView();
-            idDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             firstNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             lastNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             addressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            phonesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            customerBindingSource = new BindingSource(components);
+            customerBindingSource1 = new BindingSource(components);
+            editCustomerButton = new Button();
             phonesDataGridView = new DataGridView();
-            idDataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            numberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            descriptionDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            customerIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            customerDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            phoneBindingSource = new BindingSource(components);
             editPhoneButton = new Button();
             removePhoneButton = new Button();
             addPhoneButton = new Button();
+            phonesBindingSource1 = new BindingSource(components);
+            numberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            descriptionDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)productsDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)productBindingSource).BeginInit();
             tabControl1.SuspendLayout();
@@ -72,9 +67,9 @@
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)customersDataGridView).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)customerBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)customerBindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)phonesDataGridView).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)phoneBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)phonesBindingSource1).BeginInit();
             SuspendLayout();
             // 
             // productsDataGridView
@@ -241,24 +236,14 @@
             removeCustomerButton.UseVisualStyleBackColor = true;
             removeCustomerButton.Click += removeCustomerButton_Click;
             // 
-            // editCustomerButton
-            // 
-            editCustomerButton.Location = new Point(168, 8);
-            editCustomerButton.Name = "editCustomerButton";
-            editCustomerButton.Size = new Size(75, 23);
-            editCustomerButton.TabIndex = 2;
-            editCustomerButton.Text = "Edit";
-            editCustomerButton.UseVisualStyleBackColor = true;
-            editCustomerButton.Click += editCustomerButton_Click;
-            // 
             // customersDataGridView
             // 
             customersDataGridView.AllowUserToAddRows = false;
             customersDataGridView.AllowUserToDeleteRows = false;
             customersDataGridView.AutoGenerateColumns = false;
             customersDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            customersDataGridView.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn1, firstNameDataGridViewTextBoxColumn, lastNameDataGridViewTextBoxColumn, addressDataGridViewTextBoxColumn, phonesDataGridViewTextBoxColumn });
-            customersDataGridView.DataSource = customerBindingSource;
+            customersDataGridView.Columns.AddRange(new DataGridViewColumn[] { firstNameDataGridViewTextBoxColumn, lastNameDataGridViewTextBoxColumn, addressDataGridViewTextBoxColumn });
+            customersDataGridView.DataSource = customerBindingSource1;
             customersDataGridView.Location = new Point(5, 37);
             customersDataGridView.Name = "customersDataGridView";
             customersDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -267,12 +252,6 @@
             customersDataGridView.TabIndex = 3;
             customersDataGridView.SelectionChanged += customersDataGridView_SelectionChanged;
             customersDataGridView.DoubleClick += customersDataGridView_DoubleClick;
-            // 
-            // idDataGridViewTextBoxColumn1
-            // 
-            idDataGridViewTextBoxColumn1.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn1.HeaderText = "Id";
-            idDataGridViewTextBoxColumn1.Name = "idDataGridViewTextBoxColumn1";
             // 
             // firstNameDataGridViewTextBoxColumn
             // 
@@ -292,15 +271,19 @@
             addressDataGridViewTextBoxColumn.HeaderText = "Address";
             addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
             // 
-            // phonesDataGridViewTextBoxColumn
+            // customerBindingSource1
             // 
-            phonesDataGridViewTextBoxColumn.DataPropertyName = "Phones";
-            phonesDataGridViewTextBoxColumn.HeaderText = "Phones";
-            phonesDataGridViewTextBoxColumn.Name = "phonesDataGridViewTextBoxColumn";
+            customerBindingSource1.DataSource = typeof(Models.Customer);
             // 
-            // customerBindingSource
+            // editCustomerButton
             // 
-            customerBindingSource.DataSource = typeof(Models.Customer);
+            editCustomerButton.Location = new Point(168, 8);
+            editCustomerButton.Name = "editCustomerButton";
+            editCustomerButton.Size = new Size(75, 23);
+            editCustomerButton.TabIndex = 2;
+            editCustomerButton.Text = "Edit";
+            editCustomerButton.UseVisualStyleBackColor = true;
+            editCustomerButton.Click += editCustomerButton_Click;
             // 
             // phonesDataGridView
             // 
@@ -308,8 +291,8 @@
             phonesDataGridView.AllowUserToDeleteRows = false;
             phonesDataGridView.AutoGenerateColumns = false;
             phonesDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            phonesDataGridView.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn2, numberDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn1, customerIdDataGridViewTextBoxColumn, customerDataGridViewTextBoxColumn });
-            phonesDataGridView.DataSource = phoneBindingSource;
+            phonesDataGridView.Columns.AddRange(new DataGridViewColumn[] { numberDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn1 });
+            phonesDataGridView.DataSource = phonesBindingSource1;
             phonesDataGridView.Location = new Point(6, 36);
             phonesDataGridView.Name = "phonesDataGridView";
             phonesDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -317,40 +300,7 @@
             phonesDataGridView.Size = new Size(756, 153);
             phonesDataGridView.TabIndex = 3;
             phonesDataGridView.SelectionChanged += phonesDataGridView_SelectionChanged;
-            // 
-            // idDataGridViewTextBoxColumn2
-            // 
-            idDataGridViewTextBoxColumn2.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn2.HeaderText = "Id";
-            idDataGridViewTextBoxColumn2.Name = "idDataGridViewTextBoxColumn2";
-            // 
-            // numberDataGridViewTextBoxColumn
-            // 
-            numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
-            numberDataGridViewTextBoxColumn.HeaderText = "Number";
-            numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
-            // 
-            // descriptionDataGridViewTextBoxColumn1
-            // 
-            descriptionDataGridViewTextBoxColumn1.DataPropertyName = "Description";
-            descriptionDataGridViewTextBoxColumn1.HeaderText = "Description";
-            descriptionDataGridViewTextBoxColumn1.Name = "descriptionDataGridViewTextBoxColumn1";
-            // 
-            // customerIdDataGridViewTextBoxColumn
-            // 
-            customerIdDataGridViewTextBoxColumn.DataPropertyName = "CustomerId";
-            customerIdDataGridViewTextBoxColumn.HeaderText = "CustomerId";
-            customerIdDataGridViewTextBoxColumn.Name = "customerIdDataGridViewTextBoxColumn";
-            // 
-            // customerDataGridViewTextBoxColumn
-            // 
-            customerDataGridViewTextBoxColumn.DataPropertyName = "Customer";
-            customerDataGridViewTextBoxColumn.HeaderText = "Customer";
-            customerDataGridViewTextBoxColumn.Name = "customerDataGridViewTextBoxColumn";
-            // 
-            // phoneBindingSource
-            // 
-            phoneBindingSource.DataSource = typeof(Models.Phone);
+            phonesDataGridView.DoubleClick += phonesDataGridView_DoubleClick;
             // 
             // editPhoneButton
             // 
@@ -360,6 +310,7 @@
             editPhoneButton.TabIndex = 2;
             editPhoneButton.Text = "Edit";
             editPhoneButton.UseVisualStyleBackColor = true;
+            editPhoneButton.Click += editPhoneButton_Click;
             // 
             // removePhoneButton
             // 
@@ -379,6 +330,24 @@
             addPhoneButton.TabIndex = 0;
             addPhoneButton.Text = "Add";
             addPhoneButton.UseVisualStyleBackColor = true;
+            addPhoneButton.Click += addPhoneButton_Click;
+            // 
+            // phonesBindingSource1
+            // 
+            phonesBindingSource1.DataMember = "Phones";
+            phonesBindingSource1.DataSource = customerBindingSource1;
+            // 
+            // numberDataGridViewTextBoxColumn
+            // 
+            numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
+            numberDataGridViewTextBoxColumn.HeaderText = "Number";
+            numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
+            // 
+            // descriptionDataGridViewTextBoxColumn1
+            // 
+            descriptionDataGridViewTextBoxColumn1.DataPropertyName = "Description";
+            descriptionDataGridViewTextBoxColumn1.HeaderText = "Description";
+            descriptionDataGridViewTextBoxColumn1.Name = "descriptionDataGridViewTextBoxColumn1";
             // 
             // MainForm
             // 
@@ -405,9 +374,9 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)customersDataGridView).EndInit();
-            ((System.ComponentModel.ISupportInitialize)customerBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)customerBindingSource1).EndInit();
             ((System.ComponentModel.ISupportInitialize)phonesDataGridView).EndInit();
-            ((System.ComponentModel.ISupportInitialize)phoneBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)phonesBindingSource1).EndInit();
             ResumeLayout(false);
         }
 
@@ -429,21 +398,17 @@
         private Button editCustomerButton;
         private Button removeCustomerButton;
         private Button addCustomerButton;
-        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn phonesDataGridViewTextBoxColumn;
-        private BindingSource customerBindingSource;
         private DataGridView phonesDataGridView;
         private Button editPhoneButton;
         private Button removePhoneButton;
         private Button addPhoneButton;
-        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn2;
+        private BindingSource customerBindingSource1;
+        private DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn customerIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn customerDataGridViewTextBoxColumn;
-        private BindingSource phoneBindingSource;
+        private BindingSource phonesBindingSource1;
     }
 }
